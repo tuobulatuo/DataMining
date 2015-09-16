@@ -1,0 +1,330 @@
+\documentclass[a4paper]{article}
+
+\usepackage{Sweave} %--------------------------------!
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{verbatim}
+
+\oddsidemargin0cm
+\topmargin-2cm     %I recommend adding these three lines to increase the
+\textwidth16.5cm   %amount of usable space on the page (and save trees)
+\textheight23.5cm
+
+\newcommand{\question}[2] {\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\bf #1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+\newcommand{\myname}{Xuan Han}
+\newcommand{\myhusky}{han.xua@husky.neu}
+\newcommand{\myhwnum}{1}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{\textbf{HW\myhwnum}}}      % Note the different brackets!
+\rhead{\fancyplain{}{\myname\\ \myhusky}}
+\chead{\fancyplain{}{8-9}}
+
+
+\begin{document}
+\SweaveOpts{concordance=True}
+
+\title{Data Mining Assignment \myhwnum}
+\author{\myname \\
+        \myhusky}
+\date{\today}
+\maketitle
+
+\medskip
+\thispagestyle{plain}
+
+\question{8}{College data set explore}
+Explore:
+\begin{enumerate}
+\item Instead of loading csv file from disk, I Installed the dateset from ISLR
+<<load data>>=
+library(ISLR)
+@
+
+
+\item Look into College data set by using head
+<<head>>=
+head(College, 2)
+@
+{
+\colorbox{BurntOrange}{\textbf{discovery1:}}\color{red}\\
+Each row stand for a university and columns represent feature or properties of the university
+}
+
+
+\item Another good way to inspect our data by using str() fucntion
+<<str>>=
+str(College)
+@
+{
+\colorbox{BurntOrange}{\textbf{discovery2:}}\color{red}\\
+Here we find that there are 777 universities and there are 18 features for each university
+}
+
+
+\item Use summary() function to produce a numerical summary of the variables in the data set
+<<summary>>=
+summary(College)
+attach(College)
+@
+{
+\colorbox{BurntOrange}{\textbf{discovery3:}} \color{red}\\
+From this feature summary we can see that most of the universities are private which is about 72\% percent. Fulltime undergraduate students are much more than part-time undergraduate students. And so on
+}
+
+
+\item Use pairs() function to produce a scatterplot matrix of the first the columns
+<<pairs, fig=TRUE>>=
+pairs(College[, 1:10])
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery4:}}\color{red}\\
+This command really gives us whole bunch of usefull information. For example: (1) we can see that private school have more top10\% students than public school; (2) application numbers and enroll numbers are basically linear relationship; (3) The more top10\% student, the more room and board costs; and so on.
+}
+
+
+\item Use the plot() function to produce side-by-side boxplots of \textit{Outstate} versus \textit{private}
+<<outstate-private, fig=TRUE>>=
+boxplot(Outstate ~ Private, College, ylab = "Outstate", xlab = "Private",
+        main = "Outstate vs. Private", col = rainbow(2), varwidth = T)
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery5:}}\color{red}\\
+We can see that private school have far more outstate students, which means that private school are more attractive to outstate student.
+}
+
+\item Create a new qualitative variable, called Elite, by binning the Top10perc variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10\% of their high school classes exceeds 50\%.
+
+<<outstate-elite, fig=TRUE>>=
+Elite = rep("No", nrow(College))
+Elite[College$Top10perc > 50] = "Yes"
+Elite = as.factor(Elite)
+College = data.frame(College, Elite)
+summary(Elite)
+boxplot(Outstate ~ Elite, main = "Outstate vs. Elite", xlab = "Outstate", ylab = "Elite",
+        col = rainbow(2))
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery6:}}\color{red}\\
+From this picture we can see that the more outstate students, the more elite students. This makes us wander if the elite students are from outstate? Possible no. We need another expriment.
+}
+
+
+\item Plot Private vs. Elite
+<<Private-Elite, fig=True>>=
+plot(Private, Elite, main = "Private vs. Elite", xlab = "Private", ylab = "Elite",
+     col = rainbow(7))
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery7:}}\color{red}\\
+Now it's clear that not only there are more private universities, but also there are more elite universities among private universities. So, it is because private schools are more attractive that they are more likely to be elite schools.
+}
+
+
+\item Use the hist() function to produce some histograms with differing numbers of bins for a few of the quantitative vari- ables.
+
+<<hist, fig=True>>=
+par(mfrow = c(3,3))
+hist(College$Apps, col = "red")
+hist(College$Top10perc, col = "blue")
+hist(College$Outstate, col = "green")
+hist(College$Room.Board, col = "yellow")
+hist(College$Personal, col = "pink")
+hist(College$S.F.Ratio, col = "brown")
+hist(College$PhD, col = "slateblue")
+hist(College$perc.alumni, col = "cadetblue1")
+hist(College$Grad.Rate, col = "sienna1")
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery8:}}\color{red}\\
+Here we can see the distribution of the features of those 777 universities. It's easy to see that most schools have more than 70\% faculties that have PhD.; The expected probality that one graduate is 0.7, which is not bad, and so on.
+}
+
+
+\item Explore Northeastern:
+<<neu>>=
+str(College[row.names(College) == "Northeastern University",])
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery about Northeastern University:}}\color{red}\\
+%\begin{comment}
+I'm pretty interested in our schools features.
+\begin{itemize}
+\item We have more than 10000 applications, which really rare, which means our school is very attractive.
+\item We accept more than 8000 students, more than 10000 full time and part time undergraduate student, which are all alse very uncommon. These figures makes me believe that our school is a very big school, which means that our school is really efficent at manage and organize student.
+\item 16\% top10, 17\% donate alumni, 73\% PhD., 12.9\% S.F.Ratio, which are all normal level.
+\item 7425 room \& board fees is twice the average level, makes our school expensive.
+\item 46\% graduation is very low, which is absolutly not a good news for us.
+\item our school is not a elite school
+\end{itemize}
+So, with the analysis above, Our school is a normal level, but very big, expensive school, with low probablity of gradutation.
+
+%\end{comment}
+}
+
+
+\item Explore Elite Schools:
+<<elite>>=
+sapply(College[College$Elite == "Yes", 2:18], mean)
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery about Elite University:}}\color{red}\\
+Here we can see a statistic summary about elite schools.\\
+With comparision between NEU and those Elite schools, I provide that:
+\begin{itemize}
+\item Decrease acceptance, decrease enrollment.
+\item Hire more PhD. teachers.
+\item Find ways to ecourage our alumni to donate.
+\item Find ways to increase graduatation percent.
+\end{itemize}
+}
+
+\end{enumerate}
+
+
+\newpage
+\question{9}{Auto data set explore}
+
+\begin{enumerate}
+\item Load data, briefly looking what inside.
+<<load data>>=
+library(ISLR)
+attach(Auto)
+str(Auto)
+summary(Auto)
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery1:}}\color{red}\\
+Here we find that Auto has 392 instances and each instance has 9 predictors\\
+For all the predictors:
+\begin{itemize}
+\item quantitative predictors:
+\begin{itemize}
+\item mpg
+\item displacement
+\item horsepower
+\item weight
+\item acceleration
+\end{itemize}
+
+\item qualitative predictors:
+\begin{itemize}
+\item cylinders
+\item year
+\item origin
+\item name
+\end{itemize}
+
+\end{itemize}
+}
+
+\item Make qualitative predictors as factors
+<<quali>>=
+cylinders = as.factor(cylinders)
+year = as.factor(year)
+origin = as.factor(origin)
+name = as.factor(name)
+@
+
+\item Range of each quantitative predictor
+<<range>>=
+sapply(Auto[, c(1,3,4,5,6)], range)
+@
+
+
+\item Mean and standard deviation of each quantitative predictor
+<<mean-std>>=
+sapply(Auto[, c(1,3,4,5,6)], mean)
+sapply(Auto[, c(1,3,4,5,6)], sd)
+@
+
+
+\item Remove the 10th through 85th observations and recompute mean and std.
+<<>>=
+n_row_names = as.numeric(rownames(Auto))
+selector = !(n_row_names >= 10 & n_row_names < 86)
+Auto2 = Auto[selector, ]
+sapply(Auto2[, c(1,3,4,5,6)], mean)
+sapply(Auto2[, c(1,3,4,5,6)], sd)
+sapply(Auto2[, c(1,3,4,5,6)], range)
+@
+
+{
+\colorbox{BurntOrange}{\textbf{discovery2:}}\color{red}\\
+After removing observations from 10th through 85th, we can see that range, mean and standard deviation do not change to much.
+}
+
+
+\item Graphical investigation of predictor
+<<pair, fig=TRUE>>=
+pairs( ~mpg + displacement + horsepower + weight + acceleration , Auto)
+@
+
+<<mpg-cylinder, fig=TRUE>>=
+par(mfrow = c(3,3))
+boxplot(mpg ~ cylinders, col = rainbow(7), ylab = "mpg", xlab = "cylinders",
+        varwidth = T)
+plot(mpg ~ weight, col = rainbow(7))
+plot(mpg ~ horsepower, col = rainbow(7))
+boxplot(horsepower ~ cylinders, col = rainbow(7), ylab = "horsepower",
+        xlab = "cylinders", varwidth=T)
+boxplot(mpg ~ origin, col = rainbow(7), ylab = "mpg", xlab = "origin",
+        varwidth = T)
+boxplot(weight ~ origin, col = rainbow(7), ylab = "weight", xlab = "origin",
+        varwidth = T)
+boxplot(horsepower ~ origin, col = rainbow(7), ylab = "horsepower", xlab = "origin",
+        varwidth = T)
+boxplot(acceleration ~ origin, col = rainbow(7), ylab = "acceleration", xlab = "origin",
+        varwidth = T)
+boxplot(horsepower ~ year, col = rainbow(7), ylab = "horsepower", xlab = "year",
+        varwidth = T)
+@
+
+
+{
+\colorbox{BurntOrange}{\textbf{discovery3:}}\color{red}\\
+Here we can get lots of information:
+\begin{itemize}
+\item Cars of 4 cylinders are most efficent with gas
+\item The heavier the car, the more gas it consumes per mile
+\item The more horsepower the car, the more gas it consumes per mile
+\item The more cylinders one car have, the more horsepower. (which is common sense)
+\item U.S. cars seem to consume more gas/mile than cars from other places
+\item U.S. cars are tend to have more weith
+\item U.S. cars have more horsepower
+\item Europe cars accelerate faster
+\item horsepower of cars decrease with years going on
+\end{itemize}
+
+It seems that if your are in U.S., buy yourself a nice car, which has more horsepower, heavier, even if it consumes more gas. But the good news is that the gas is pretty low compared with other countries(especially China).\\
+\\
+So, maybe it is because of low gas price that lead to the result that U.S. cars are generally more powerfull and heavier.\\
+\\
+My plots suggest that:\\
+(1) The bigger the weight, the smaller the mpg\\
+(2) 4 cylinders get the biggest mpg\\
+(3) The bigger the horsepower, the smaller the mpg\\
+Justify:\\
+It's all about engine, heavier cars need more powerfull engine, which has more cylinders, more horsepower and consume more gas. In return, powerfull cars need to be built with more weight to keep it stable in high speed.
+}
+
+\end{enumerate}
+
+\end{document}
