@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  16 SEP 2015 16:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  16 SEP 2015 18:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -401,79 +401,63 @@ File: introduction-pairs.pdf Graphic file (type pdf)
 <use introduction-pairs.pdf>
 Package pdftex.def Info: introduction-pairs.pdf used on input line 173.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
-
-<introduction-outstate-private.pdf, id=18, 433.62pt x 433.62pt>
+ [3 <./introduction-pairs.pdf>]
+<introduction-outstate-private.pdf, id=27, 433.62pt x 433.62pt>
 File: introduction-outstate-private.pdf Graphic file (type pdf)
 
 <use introduction-outstate-private.pdf>
-Package pdftex.def Info: introduction-outstate-private.pdf used on input line 1
-88.
+Package pdftex.def Info: introduction-outstate-private.pdf used on input line 2
+10.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [3 <./introduction-pairs.pdf>]
-<introduction-outstate-elite.pdf, id=28, 433.62pt x 433.62pt>
-File: introduction-outstate-elite.pdf Graphic file (type pdf)
-
-<use introduction-outstate-elite.pdf>
-Package pdftex.def Info: introduction-outstate-elite.pdf used on input line 214
-.
-(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [4 <./introduction-outstate-private.pdf>] <introduction-Private-Elite.pdf, id=
-38, 433.62pt x 433.62pt>
-File: introduction-Private-Elite.pdf Graphic file (type pdf)
-
-<use introduction-Private-Elite.pdf>
-Package pdftex.def Info: introduction-Private-Elite.pdf used on input line 229.
-
-(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [5 <./introduction-outstate-elite.pdf>]
-<introduction-hist.pdf, id=48, 433.62pt x 433.62pt>
+ [4 <./introduction-outstate-private.pdf>] <introduction-hist.pdf, id=37, 433.6
+2pt x 433.62pt>
 File: introduction-hist.pdf Graphic file (type pdf)
 
 <use introduction-hist.pdf>
-Package pdftex.def Info: introduction-hist.pdf used on input line 253.
+Package pdftex.def Info: introduction-hist.pdf used on input line 245.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [6 <./introduction-Private-Elite.pdf>] [7 <./introduction-hist.pdf>]
-LaTeX Font Info:    Try loading font information for TS1+aer on input line 295.
+ [5 <./introduction-hist.pdf>]
+LaTeX Font Info:    Try loading font information for TS1+aer on input line 287.
 
 
 (/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/ts1aer.fd
 File: ts1aer.fd 
 )
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <10> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 295.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 287.
 
-[8] [9] <introduction-pair.pdf, id=75, 433.62pt x 433.62pt>
+[6] [7] <introduction-pair.pdf, id=55, 433.62pt x 433.62pt>
 File: introduction-pair.pdf Graphic file (type pdf)
 
 <use introduction-pair.pdf>
-Package pdftex.def Info: introduction-pair.pdf used on input line 492.
+Package pdftex.def Info: introduction-pair.pdf used on input line 484.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [10]
-<introduction-mpg-cylinder.pdf, id=79, 433.62pt x 433.62pt>
+ [8]
+<introduction-mpg-cylinder.pdf, id=59, 433.62pt x 433.62pt>
 File: introduction-mpg-cylinder.pdf Graphic file (type pdf)
 
 <use introduction-mpg-cylinder.pdf>
-Package pdftex.def Info: introduction-mpg-cylinder.pdf used on input line 515.
+Package pdftex.def Info: introduction-mpg-cylinder.pdf used on input line 507.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [11 <./introduction-pair.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 533--544
+ [9 <./introduction-pair.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 525--536
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 533--544
+Underfull \hbox (badness 10000) in paragraph at lines 525--536
 
  []
 
-[12 <./introduction-mpg-cylinder.pdf>] [13] (./introduction.aux) ) 
+[10 <./introduction-mpg-cylinder.pdf>] [11] (./introduction.aux) ) 
 Here is how much of TeX's memory you used:
- 4080 strings out of 493117
- 57515 string characters out of 6135433
+ 4070 strings out of 493117
+ 57162 string characters out of 6135433
  113996 words of memory out of 5000000
- 7419 multiletter control sequences out of 15000+600000
+ 7411 multiletter control sequences out of 15000+600000
  23955 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,12n,43p,328b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,12n,43p,328b,476s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/t
 exlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/te
 xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/tex
@@ -485,10 +469,10 @@ ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive
 014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/20
 14/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2014
 /texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on introduction.pdf (13 pages, 3933267 bytes).
+Output written on introduction.pdf (11 pages, 3925329 bytes).
 PDF statistics:
- 131 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
+ 110 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 40 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 30 words of extra memory for PDF output out of 10000 (max. 10000000)
 

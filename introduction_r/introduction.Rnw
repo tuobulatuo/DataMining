@@ -94,9 +94,28 @@ This command really gives us whole bunch of usefull information. For example: (1
 
 
 \item Use the plot() function to produce side-by-side boxplots of \textit{Outstate} versus \textit{private}
+
+\item Create a new qualitative variable, called Elite, by binning the Top10perc variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10\% of their high school classes exceeds 50\%.
+
+\item Plot Private vs. Elite
+
 <<outstate-private, fig=TRUE>>=
+par(mfrow = c(1,3))
+
 boxplot(Outstate ~ Private, College, ylab = "Outstate", xlab = "Private",
         main = "Outstate vs. Private", col = rainbow(2), varwidth = T)
+
+Elite = rep("No", nrow(College))
+Elite[College$Top10perc > 50] = "Yes"
+Elite = as.factor(Elite)
+College = data.frame(College, Elite)
+summary(Elite)
+boxplot(Outstate ~ Elite, main = "Outstate vs. Elite", xlab = "Elite", ylab = "Outstate",
+        col = rainbow(2))
+
+plot(Elite ~ Private, main = "Private vs. Elite", xlab = "Private", ylab = "Elite",
+     col = rainbow(7))
+
 @
 
 {
@@ -104,29 +123,11 @@ boxplot(Outstate ~ Private, College, ylab = "Outstate", xlab = "Private",
 We can see that private school have far more outstate students, which means that private school are more attractive to outstate student.
 }
 
-\item Create a new qualitative variable, called Elite, by binning the Top10perc variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10\% of their high school classes exceeds 50\%.
-
-<<outstate-elite, fig=TRUE>>=
-Elite = rep("No", nrow(College))
-Elite[College$Top10perc > 50] = "Yes"
-Elite = as.factor(Elite)
-College = data.frame(College, Elite)
-summary(Elite)
-boxplot(Outstate ~ Elite, main = "Outstate vs. Elite", xlab = "Outstate", ylab = "Elite",
-        col = rainbow(2))
-@
 
 {
 \colorbox{BurntOrange}{\textbf{discovery6:}}\color{red}\\
 From this picture we can see that the more outstate students, the more elite students. This makes us wander if the elite students are from outstate? Possible no. We need another expriment.
 }
-
-
-\item Plot Private vs. Elite
-<<Private-Elite, fig=True>>=
-plot(Private, Elite, main = "Private vs. Elite", xlab = "Private", ylab = "Elite",
-     col = rainbow(7))
-@
 
 {
 \colorbox{BurntOrange}{\textbf{discovery7:}}\color{red}\\
