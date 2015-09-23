@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  23 SEP 2015 10:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  23 SEP 2015 15:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**introduction.tex
-(./introduction.tex
+**lm.tex
+(./lm.tex
 LaTeX2e <2014/05/01>
 Babel <3.9k> and hyphenation patterns for 78 languages loaded.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/article.cls
@@ -244,16 +244,28 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks20
+\thm@bodyfont=\toks21
+\thm@headfont=\toks22
+\thm@notefont=\toks23
+\thm@headpunct=\toks24
+\thm@preskip=\skip46
+\thm@postskip=\skip47
+\thm@headsep=\skip48
+\dth@everypar=\toks25
+)
 (/usr/local/texlive/2014/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-\fancy@headwidth=\skip46
-\f@ncyO@elh=\skip47
-\f@ncyO@erh=\skip48
-\f@ncyO@olh=\skip49
-\f@ncyO@orh=\skip50
-\f@ncyO@elf=\skip51
-\f@ncyO@erf=\skip52
-\f@ncyO@olf=\skip53
-\f@ncyO@orf=\skip54
+\fancy@headwidth=\skip49
+\f@ncyO@elh=\skip50
+\f@ncyO@erh=\skip51
+\f@ncyO@olh=\skip52
+\f@ncyO@orh=\skip53
+\f@ncyO@elf=\skip54
+\f@ncyO@erf=\skip55
+\f@ncyO@olf=\skip56
+\f@ncyO@orf=\skip57
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2014/04/23 v1.1a Standard LaTeX Color (DPC)
@@ -268,32 +280,31 @@ File: dvipsnam.def 2014/04/23 v3.0j Driver-dependant file (DPC,SPQR)
 ))
 (/usr/local/texlive/2014/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks20
-\verbatim@line=\toks21
+\every@verbatim=\toks26
+\verbatim@line=\toks27
 \verbatim@in@stream=\read2
-)
-(./introduction.aux)
-\openout1 = `introduction.aux'.
+) (./lm.aux)
+\openout1 = `lm.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 34.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 34.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    ... okay on input line 34.
 
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -302,12 +313,12 @@ LaTeX Font Info:    ... okay on input line 33.
 \scratchbox=\box29
 \nofMPsegments=\count104
 \nofMParguments=\count105
-\everyMPshowfont=\toks22
+\everyMPshowfont=\toks28
 \MPscratchCnt=\count106
 \MPscratchDim=\dimen115
 \MPnumerator=\count107
 \makeMPintoPDFobject=\count108
-\everyMPtoPDFconversion=\toks23
+\everyMPtoPDFconversion=\toks29
 ) (/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -356,13 +367,13 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-(./introduction-concordance.tex)
-LaTeX Font Info:    Try loading font information for U+msa on input line 40.
+(./lm-concordance.tex)
+LaTeX Font Info:    Try loading font information for U+msa on input line 41.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 40.
+LaTeX Font Info:    Try loading font information for U+msb on input line 41.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -389,90 +400,111 @@ LaTeX Font Info:    Font shape `TS1/aett/m/n' in size <10> not available
  [1
 
 {/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<lm-pairboston.pdf, id=14, 433.62pt x 433.62pt>
+File: lm-pairboston.pdf Graphic file (type pdf)
+ <use lm-pairboston.pdf>
+Package pdftex.def Info: lm-pairboston.pdf used on input line 130.
+(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 22.34998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2] <introduction-pairs.pdf, id=17, 433.62pt x 433.62pt>
-File: introduction-pairs.pdf Graphic file (type pdf)
-
-<use introduction-pairs.pdf>
-Package pdftex.def Info: introduction-pairs.pdf used on input line 173.
+[2] <lm-crime.pdf, id=18, 433.62pt x 433.62pt>
+File: lm-crime.pdf Graphic file (type pdf)
+ <use lm-crime.pdf>
+Package pdftex.def Info: lm-crime.pdf used on input line 150.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [3 <./introduction-pairs.pdf>]
-<introduction-outstate-private.pdf, id=27, 433.62pt x 433.62pt>
-File: introduction-outstate-private.pdf Graphic file (type pdf)
-
-<use introduction-outstate-private.pdf>
-Package pdftex.def Info: introduction-outstate-private.pdf used on input line 2
-10.
+ [3 <./lm-pairboston.pdf>] <lm-high.pdf, id=28, 433.62pt x 433.62pt>
+File: lm-high.pdf Graphic file (type pdf)
+ <use lm-high.pdf>
+Package pdftex.def Info: lm-high.pdf used on input line 164.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [4 <./introduction-outstate-private.pdf>] <introduction-hist.pdf, id=37, 433.6
-2pt x 433.62pt>
-File: introduction-hist.pdf Graphic file (type pdf)
 
-<use introduction-hist.pdf>
-Package pdftex.def Info: introduction-hist.pdf used on input line 245.
+[4 <./lm-crime.pdf>] <lm-hist.pdf, id=38, 433.62pt x 433.62pt>
+File: lm-hist.pdf Graphic file (type pdf)
+
+<use lm-hist.pdf>
+Package pdftex.def Info: lm-hist.pdf used on input line 192.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [5 <./introduction-hist.pdf>]
-LaTeX Font Info:    Try loading font information for TS1+aer on input line 287.
+ [5 <./lm-high.pdf>] [6 <./lm-hist.pdf>]
+<lm-dewlling.pdf, id=57, 433.62pt x 433.62pt>
+File: lm-dewlling.pdf Graphic file (type pdf)
+ <use lm-dewlling.pdf>
+Package pdftex.def Info: lm-dewlling.pdf used on input line 297.
+(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
+ [7]
+[8 <./lm-dewlling.pdf>]
+LaTeX Font Info:    Font shape `TS1/aett/m/sl' in size <10> not available
+(Font)              Font shape `TS1/cmtt/m/sl' tried instead on input line 354.
+
+ <lm-b.pdf, id=70, 433.62pt x 433.62pt>
+File: lm-b.pdf Graphic file (type pdf)
+ <use lm-b.pdf>
+Package pdftex.def Info: lm-b.pdf used on input line 384.
+(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
+
+[9] <lm-c.pdf, id=75, 433.62pt x 433.62pt>
+File: lm-c.pdf Graphic file (type pdf)
+ <use lm-c.pdf>
+Package pdftex.def Info: lm-c.pdf used on input line 395.
+(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
+ [10 <./lm-b.pdf>]
+[11 <./lm-c.pdf>] <lm-a.pdf, id=92, 433.62pt x 433.62pt>
+File: lm-a.pdf Graphic file (type pdf)
+ <use lm-a.pdf>
+Package pdftex.def Info: lm-a.pdf used on input line 441.
+(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
+LaTeX Font Info:    Try loading font information for TS1+aer on input line 446.
 
 
 (/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/ts1aer.fd
 File: ts1aer.fd 
 )
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <10> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 287.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 446.
 
-[6] [7] <introduction-pair.pdf, id=55, 433.62pt x 433.62pt>
-File: introduction-pair.pdf Graphic file (type pdf)
-
-<use introduction-pair.pdf>
-Package pdftex.def Info: introduction-pair.pdf used on input line 484.
+[12 <./lm-a.pdf>]
+File: lm-b.pdf Graphic file (type pdf)
+ <use lm-b.pdf>
+Package pdftex.def Info: lm-b.pdf used on input line 485.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [8]
-<introduction-mpg-cylinder.pdf, id=59, 433.62pt x 433.62pt>
-File: introduction-mpg-cylinder.pdf Graphic file (type pdf)
-
-<use introduction-mpg-cylinder.pdf>
-Package pdftex.def Info: introduction-mpg-cylinder.pdf used on input line 507.
-(pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
- [9 <./introduction-pair.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 525--536
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 525--536
-
- []
-
-[10 <./introduction-mpg-cylinder.pdf>] [11] (./introduction.aux) ) 
+ [13] [14] [15] (./lm.aux) ) 
 Here is how much of TeX's memory you used:
- 4070 strings out of 493117
- 57162 string characters out of 6135433
- 113996 words of memory out of 5000000
- 7411 multiletter control sequences out of 15000+600000
- 23955 words of font info for 61 fonts, out of 8000000 for 9000
+ 4167 strings out of 493117
+ 57962 string characters out of 6135433
+ 118222 words of memory out of 5000000
+ 7498 multiletter control sequences out of 15000+600000
+ 25952 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,12n,43p,328b,476s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/t
-exlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/te
-xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/tex
-live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
-ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive
-/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2
-014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb></usr/local/texlive/
-2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
-014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/20
-14/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2014
-/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on introduction.pdf (11 pages, 3925349 bytes).
+ 38i,12n,43p,247b,395s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips
+/cm-super/cm-super-ts1.enc}</usr/local/texlive/2014/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmex10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public
+/amsfonts/cmextra/cmex7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr17.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr5.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msltt10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
+i10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
+10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfrm1000
+.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfst1000.p
+fb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb
+>
+Output written on lm.pdf (15 pages, 439797 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 184 PDF objects out of 1000 (max. 8388607)
+ 129 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 30 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 45 words of extra memory for PDF output out of 10000 (max. 10000000)
 
