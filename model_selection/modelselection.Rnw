@@ -41,6 +41,16 @@
 \maketitle
 
 \thispagestyle{plain}
+\begin{table}[h]
+\label{my-label}
+\begin{tabular}{llll}
+name       & Dep & degree & year in Program \\
+Zetao Wang & CS  & MS     & 2               \\
+Haiyi Mao  & CS  & MS     & 2               \\
+Jin Peng   & CS  & MS     & 2               \\
+Xuan Han   & CS  & MS     & 1
+\end{tabular}
+\end{table}
 
 \question{8}{Best subset selection \& forward \& backwards selection}
 \part{a}
