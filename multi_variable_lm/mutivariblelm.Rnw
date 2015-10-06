@@ -1,0 +1,474 @@
+\documentclass[a4paper]{article}
+
+\usepackage{Sweave} %--------------------------------!
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{verbatim}
+
+\oddsidemargin0cm
+\topmargin-2cm     %I recommend adding these three lines to increase the
+\textwidth16.5cm   %amount of usable space on the page (and save trees)
+\textheight23.5cm
+
+\newcommand{\question}[2] {\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\bf #1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+\newcommand{\myname}{Xuan Han}
+\newcommand{\myhusky}{han.xua@husky.neu}
+\newcommand{\myhwnum}{3}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{\textbf{HW\myhwnum}}}      % Note the different brackets!
+\rhead{\fancyplain{}{\myname\\ \myhusky}}
+\chead{\fancyplain{}{10 8 11}}
+
+
+\begin{document}
+\SweaveOpts{concordance=True}
+
+\title{Data Mining Assignment \myhwnum}
+\author{\myname \\
+        \myhusky}
+\date{\today}
+\maketitle
+
+\thispagestyle{plain}
+
+\question{9}{Multiple Linear Regression Auto}
+\part{a}
+<<9a, fig=TRUE>>=
+library(ISLR)
+auto = data.frame(Auto)
+attach(auto)
+pairs(auto)
+@
+
+
+\part{b}
+<<9b>>=
+cor(auto[, -9])
+@
+
+
+\part{c}
+<<9c>>=
+fit1 = lm(mpg ~ cylinders + displacement + horsepower + weight + acceleration + year + origin)
+summary(fit1)
+@
+\begin{enumerate}
+{\color{red}
+\item As we can see from the summary, the p-value for many preditors are very small, and the F-statistic is much bigger than 1. So, there is a relationship between the predictor and the response.
+
+\item As we can see that the the p-value for displacement, weight, year and origin is very small which means these 4 preditors have significant relationship the response while cylinders, horsepower and acceleration not.
+
+\item The coeffcient of year means that with time goes on, cars are more energy efficient. Cars can travel more miles with the same amount of gas.
+}
+\end{enumerate}
+
+\part{d}
+<<9d, fig=TRUE>>=
+par(mfrow = c(2, 2))
+plot(fit1)
+@
+\begin{enumerate}
+{\color{red}
+\item The plot of residuals shows that this linear model is not a good fit of the data. first we can see that the residuals are not uniformly spread along the h = 0 line, which is not a Gussian distribution.
+\item We can see some large outliers in the plot which are data points 321, 324 and 325.
+\item The point 14 has a unusually high leverage
+}
+\end{enumerate}
+
+
+\part{e}
+<<9e, fig=TRUE>>=
+fit2 = lm(mpg ~ displacement * weight   + year * origin)
+summary(fit2)
+par(mfrow = c(2,2))
+plot(fit2)
+@
+\begin{enumerate}
+{\color{red}
+\item The interaction between displacement and weight appear to be statistically significant.
+}
+\end{enumerate}
+
+\part{f}
+<<9f1, fig=TRUE>>=
+fit3 = lm(mpg ~ sqrt(displacement) + sqrt(weight) + log(displacement * weight)   + sqrt(acceleration) + year)
+summary(fit3)
+par(mfrow = c(2,2))
+plot(fit3)
+@
+
+\begin{enumerate}
+{\color{red}
+\item From the residual plot, we can see that this model fit the data much better. The red line is almost flat compared with the gray line h = 0; But at begining, the red line still lie above the gray line.
+\item There are still some outliers. But compared with initail fit, these outliers are less diviated from the mean of standardlized residuals.
+}
+\end{enumerate}
+
+
+\question{13}{linear regression}
+\part{a}
+<<13a>>=
+rm(list = ls())
+set.seed(1)
+X = rnorm(100)
+@
+
+\part{b}
+<<13b>>=
+eps = rnorm(100, mean = 0, sd = sqrt(0.25))
+@
+
+\part{c}
+<<13c>>=
+Y = -1 + 0.5 * X + eps
+@
+\begin{enumerate}
+{\color{red}
+\item The length of Y is 100
+\item $\beta_0 = -1$, $\beta_1 = 0.5$
+}
+\end{enumerate}
+
+
+\part{d}
+<<13d, fig=TRUE>>=
+plot(X, Y)
+@
+\begin{enumerate}
+{\color{red}
+\item It seems that X and Y has a linear relationship.
+}
+\end{enumerate}
+
+
+\part{e}
+<<13e>>=
+fit.medium.noise = lm(Y ~ X)
+summary(fit.medium.noise)
+@
+\begin{enumerate}
+{\color{red}
+\item $\hat{beta_0} = -1.01885$, $\hat{beta_1} = 0.49947$, both are very close to the original value.
+}
+\end{enumerate}
+
+\part{f}
+<<13f>>=
+plot(X, Y)
+abline(-1, 0.5, col = 2)
+abline(fit.medium.noise, col = 3)
+legend(x = 1.2, y = -1.5, legend = c("original", "fit"), col = 2:3, lwd = 1)
+@
+
+
+\part{g}
+<<13g>>=
+fit = lm(Y ~ X + I(X ^ 2))
+summary(fit)
+@
+\begin{enumerate}
+{\color{red}
+\item The p-value of the quadratic term is 0.852, which means there's no relationship between the quadratic term and Y.
+}
+\end{enumerate}
+
+\part{h}
+<<13h>>=
+set.seed(1)
+X = rnorm(100)
+eps = rnorm(100, mean = 0, sd = sqrt(0.1))
+Y = -1 + 0.5 * X + eps
+fit.less.noise = lm(Y ~ X)
+summary(fit.less.noise)
+plot(X, Y)
+abline(-1, 0.5, col = 1)
+abline(fit.less.noise, col = 2)
+legend(x = 1.2, y = -1.5, legend = c("original", "fit"), col = 1:2, lwd = 1)
+@
+\begin{enumerate}
+{\color{red}
+\item After decreasing the noise of eps, the linear model fit the original model very well. $\hat{\beta_0} = -1.01192$ and $\hat{\beta_1} = 0.49966$, both of which are much closer to the original value but not better.
+\item The decreasing of noise does not influence $\hat{\beta_0}$ and $\hat{\beta_1}$ too much.
+\item $R^2$ increased
+}
+\end{enumerate}
+
+
+\part{i}
+<<13i>>=
+set.seed(1)
+X = rnorm(100)
+eps = rnorm(100, mean = 0, sd = sqrt(0.5))
+Y = -1 + 0.5 * X + eps
+fit.more.noise = lm(Y ~ X)
+summary(fit.more.noise)
+plot(X, Y)
+abline(-1, 0.5, col = 1)
+abline(fit.more.noise, col = 2)
+legend(x = 1.2, y = -1.5, legend = c("original", "fit"), col = 1:2, lwd = 1)
+@
+\begin{enumerate}
+{\color{red}
+\item After decreasing the noise of eps, the linear model fit the original model very well. $\hat{\beta_0} = -1.02665$ and $\hat{\beta_1} = 0.49925$, both of which are much closer to the original value but not better.
+\item The decreasing of noise does not influence $\hat{\beta_0}$ and $\hat{\beta_1}$ too much.
+\item $R^2$ decreased.
+}
+\end{enumerate}
+
+
+\part{j}
+<<13j>>=
+confint(fit.medium.noise)
+confint(fit.less.noise)
+confint(fit.more.noise)
+@
+\begin{enumerate}
+{\color{red}
+\item It's easy to see that with less noise, the confident interval tend to be narrower and with more noise, the confident interval tend to be wider.
+}
+\end{enumerate}
+
+
+\question{15}{Boston Crime Rate}
+\part{a}
+<<age, fig=TRUE>>=
+rm(list = ls())
+library(MASS)
+attach(Boston)
+fit.age = lm(crim ~ age)
+summary(fit.age)
+par(mfrow = c(2,2))
+plot(fit.age)
+@
+
+<<black, fig=TRUE>>=
+fit.black = lm(crim ~ black)
+summary(fit.black)
+par(mfrow = c(2,2))
+plot(fit.black)
+@
+
+
+<<chas, fig=TRUE>>=
+fit.chas = lm(crim ~ chas)
+summary(fit.chas)
+par(mfrow = c(2,2))
+plot(fit.chas)
+@
+
+<<dis, fig=TRUE>>=
+fit.dis = lm(crim ~ dis)
+summary(fit.dis)
+par(mfrow = c(2,2))
+plot(fit.dis)
+@
+
+<<indus, fig=TRUE>>=
+fit.indus = lm(crim ~ indus)
+summary(fit.indus)
+par(mfrow = c(2,2))
+plot(fit.indus)
+@
+
+<<lstat, fig=TRUE>>=
+fit.lstat = lm(crim ~ lstat)
+summary(fit.lstat)
+par(mfrow = c(2,2))
+plot(fit.lstat)
+@
+
+<<medv, fig=TRUE>>=
+fit.medv = lm(crim ~ medv)
+summary(fit.medv)
+par(mfrow = c(2,2))
+plot(fit.medv)
+@
+
+<<nox, fig=TRUE>>=
+fit.nox = lm(crim ~ nox)
+summary(fit.nox)
+par(mfrow = c(2,2))
+plot(fit.nox)
+@
+
+<<ptratio, fig=TRUE>>=
+fit.ptratio = lm(crim ~ ptratio)
+summary(fit.ptratio)
+par(mfrow = c(2,2))
+plot(fit.ptratio)
+@
+
+<<rad, fig=TRUE>>=
+fit.rad = lm(crim ~ rad)
+summary(fit.rad)
+par(mfrow = c(2,2))
+plot(fit.rad)
+@
+
+<<rm, fig=TRUE>>=
+fit.rm = lm(crim ~ rm)
+summary(fit.rm)
+par(mfrow = c(2,2))
+plot(fit.rm)
+@
+
+<<tax, fig=TRUE>>=
+fit.tax = lm(crim ~ tax)
+summary(fit.tax)
+par(mfrow = c(2,2))
+plot(fit.tax)
+@
+
+<<zn, fig=TRUE>>=
+fit.zn = lm(crim ~ zn)
+summary(fit.zn)
+par(mfrow = c(2,2))
+plot(fit.zn)
+@
+\begin{enumerate}
+{\color{red}
+\item From those summaries and plots we can see that all the predictor except chas have statistically significant association with response crim.
+}
+\end{enumerate}
+
+
+\part{b}
+<<15b, fig=TRUE>>=
+fit.all = lm(crim ~ ., data = Boston)
+summary(fit.all)
+par(mfrow = c(2,2))
+plot(fit.all)
+@
+\begin{enumerate}
+{\color{red}
+\item For predicators zn, dis, rad, black, lstat, medv we can reject null hypothesis.
+}
+\end{enumerate}
+
+\part{c}
+<<15c, fig=TRUE>>=
+univari.coef = c(coef(fit.zn)[2],
+                 coef(fit.indus)[2],
+                 coef(fit.chas)[2],
+                 coef(fit.nox)[2],
+                 coef(fit.rm)[2],
+                 coef(fit.age)[2],
+                 coef(fit.dis)[2],
+                 coef(fit.rad)[2],
+                 coef(fit.tax)[2],
+                 coef(fit.ptratio)[2],
+                 coef(fit.black)[2],
+                 coef(fit.lstat)[2],
+                 coef(fit.medv)[2])
+allvari.coef = coef(fit.all)[-1]
+plot(allvari.coef ~ univari.coef)
+@
+\begin{enumerate}
+{\color{red}
+\item From the plots we can see that for most of the predictors, coefficient of univariable regression is higher than multiple regression. Some changed from positive to negative. And there is one point very interesting: the coefficient of nox is 31 in univariable regression, but changed to -10 in multiple regression.
+}
+\end{enumerate}
+
+
+\part{d}
+<<age2, fig=TRUE>>=
+fit.age = lm(crim ~ poly(age, 3))
+summary(fit.age)
+par(mfrow = c(2,2))
+plot(fit.age)
+@
+
+<<black2, fig=TRUE>>=
+fit.black = lm(crim ~ poly(black, 3))
+summary(fit.black)
+par(mfrow = c(2,2))
+plot(fit.black)
+@
+
+<<dis2, fig=TRUE>>=
+fit.dis = lm(crim ~ poly(dis, 3))
+summary(fit.dis)
+par(mfrow = c(2,2))
+plot(fit.dis)
+@
+
+<<indus2, fig=TRUE>>=
+fit.indus = lm(crim ~ poly(indus, 3))
+summary(fit.indus)
+par(mfrow = c(2,2))
+plot(fit.indus)
+@
+
+<<lstat2, fig=TRUE>>=
+fit.lstat = lm(crim ~ poly(lstat, 3))
+summary(fit.lstat)
+par(mfrow = c(2,2))
+plot(fit.lstat)
+@
+
+<<medv2, fig=TRUE>>=
+fit.medv = lm(crim ~ poly(medv, 3))
+summary(fit.medv)
+par(mfrow = c(2,2))
+plot(fit.medv)
+@
+
+<<nox2, fig=TRUE>>=
+fit.nox = lm(crim ~ poly(nox, 3))
+summary(fit.nox)
+par(mfrow = c(2,2))
+plot(fit.nox)
+@
+
+<<ptratio2, fig=TRUE>>=
+fit.ptratio = lm(crim ~ poly(ptratio, 3))
+summary(fit.ptratio)
+par(mfrow = c(2,2))
+plot(fit.ptratio)
+@
+
+<<rad2, fig=TRUE>>=
+fit.rad = lm(crim ~ poly(rad, 3))
+summary(fit.rad)
+par(mfrow = c(2,2))
+plot(fit.rad)
+@
+
+<<rm2, fig=TRUE>>=
+fit.rm = lm(crim ~ poly(rm, 3))
+summary(fit.rm)
+par(mfrow = c(2,2))
+plot(fit.rm)
+@
+
+<<tax2, fig=TRUE>>=
+fit.tax = lm(crim ~ poly(tax, 3))
+summary(fit.tax)
+par(mfrow = c(2,2))
+plot(fit.tax)
+@
+
+<<zn2, fig=TRUE>>=
+fit.zn = lm(crim ~ poly(zn, 3))
+summary(fit.zn)
+par(mfrow = c(2,2))
+plot(fit.zn)
+@
+\begin{enumerate}
+{\color{red}
+\item There are evidence of non-linear association between all of the predictors and the response except chas and black, from the summary and plots we can see. We can see that most of the p-values of quadradic and cubic term are very small.
+}
+\end{enumerate}
+
+\end{document}
