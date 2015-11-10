@@ -1,0 +1,210 @@
+\documentclass[a4paper]{article}
+
+\usepackage{Sweave} %--------------------------------!
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{verbatim}
+
+\oddsidemargin 0cm
+\topmargin -2.4cm     %I recommend adding these three lines to increase the
+\textwidth 16.5cm   %amount of usable space on the page (and save trees)
+\textheight 27.5cm
+
+\newcommand{\question}[2] {\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\bf #1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+\newcommand{\myname}{Xuan Han}
+\newcommand{\myhusky}{han.xua@husky.neu}
+\newcommand{\myhwnum}{7}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{\textbf{HW\myhwnum}}}      % Note the different brackets!
+\rhead{\fancyplain{}{\myname\\ \myhusky}}
+\chead{\fancyplain{}{1 2 3}}
+
+
+\begin{document}
+\SweaveOpts{concordance=True}
+
+\title{Data Mining Assignment \myhwnum}
+\author{\myname \\
+        \myhusky}
+\date{\today}
+\maketitle
+
+\thispagestyle{plain}
+
+
+\question{1}{PCA}
+<<pre>>=
+load('hw7.RData')
+@
+
+\part{a}
+<<1a, fig=T>>=
+pr.out = prcomp(t(countsTableFull), scale. = FALSE)
+summary(pr.out)
+
+Cols = function(vec) {
+    cols = rainbow(length(vec))
+    return (cols[as.numeric(as.factor(vec))])
+}
+
+par(mfrow = c(2, 2))
+labs = c('N','N','N', 'T','T','T')
+plot(pr.out$x[, 1:2], col = Cols(labs), pch = 19, xlab = 'Z1', ylab = 'Z2')
+plot(pr.out)
+pve = 100 * pr.out$sdev ^ 2 / sum(pr.out$sdev ^ 2)
+plot(pve, type = 'o', ylab = 'PVE', xlab = 'Principle Component', col = 'blue')
+plot(cumsum(pve), type = 'o', ylab = 'Cumulative PVE', xlab = 'Principle Component', col = 'red')
+@
+\begin{enumerate}
+{\color{red}
+\item There are 6 components in this dataset. Because there are min(p, n) components in general. In this case, p = 10453, n = 6.
+\item A desirable score plot will be able to seperate the two different type of tissues. The score plot shows a desirable plot, but not so good.
+}
+\end{enumerate}
+
+\part{b}
+<<1b, fig=T>>=
+pr.out2 = prcomp(t(countsTableFull), scale. = TRUE)
+summary(pr.out2)
+
+par(mfrow = c(2, 2))
+labs = c('N','N','N', 'T','T','T')
+plot(pr.out2$x[, 1:2], col = Cols(labs), pch = 19, xlab = 'Z1', ylab = 'Z2')
+plot(pr.out2)
+pve = 100 * pr.out2$sdev ^ 2 / sum(pr.out2$sdev ^ 2)
+plot(pve, type = 'o', ylab = 'PVE', xlab = 'Principle Component', col = 'blue')
+plot(cumsum(pve), type = 'o', ylab = 'Cumulative PVE', xlab = 'Principle Component', col = 'red')
+@
+\begin{enumerate}
+{\color{red}
+\item Obviously the two tissues seperated more clearly, which is a desirable result.
+\item The PVE of the first two priciple components decreased.
+}
+\end{enumerate}
+
+\part{c}
+<<1c, fig=T>>=
+pr.out = prcomp(t(countsTableSubset), scale. = FALSE)
+summary(pr.out)
+
+par(mfrow = c(2, 2))
+labs = c('N','N','N', 'T','T','T')
+plot(pr.out$x[, 1:2], col = Cols(labs), pch = 19, xlab = 'Z1', ylab = 'Z2')
+plot(pr.out)
+pve = 100 * pr.out$sdev ^ 2 / sum(pr.out$sdev ^ 2)
+plot(pve, type = 'o', ylab = 'PVE', xlab = 'Principle Component', col = 'blue')
+plot(cumsum(pve), type = 'o', ylab = 'Cumulative PVE', xlab = 'Principle Component', col = 'red')
+@
+
+<<1c2, fig=T>>=
+pr.out2 = prcomp(t(countsTableSubset), scale. = TRUE)
+summary(pr.out2)
+
+par(mfrow = c(2, 2))
+labs = c('N','N','N', 'T','T','T')
+plot(pr.out2$x[, 1:2], col = Cols(labs), pch = 19, xlab = 'Z1', ylab = 'Z2')
+plot(pr.out2)
+pve = 100 * pr.out2$sdev ^ 2 / sum(pr.out2$sdev ^ 2)
+plot(pve, type = 'o', ylab = 'PVE', xlab = 'Principle Component', col = 'blue')
+plot(cumsum(pve), type = 'o', ylab = 'Cumulative PVE', xlab = 'Principle Component', col = 'red')
+@
+
+\begin{enumerate}
+{\color{red}
+\item We can find simmilar result with this data set, such as the PVE of first two components decrease after scaling.
+\item And the two type of tissues seperated more clearly after scaling.
+}
+\end{enumerate}
+
+\part{d}
+{\color{red}
+Suggestions:\\
+\begin{enumerate}
+\item Scale the variables before do clustering.
+\item Use at leart first 3 principle components to do analysis.
+\end{enumerate}
+}
+
+
+\newpage
+\question{2}{Clustering and headmaps}
+
+\part{a}
+<<2a2, fig=T>>=
+heatmap(t(countsTableSubset), scale = 'none')
+@
+<<2a, fig=T>>=
+heatmap(t(countsTableSubset), scale = 'col')
+@
+{\color{red}
+\begin{enumerate}
+\item Obviouly there is a big difference before and after scale.
+\item Scaling has no effect on the apperance of the dendrograms. Because scaling is done after dendrograms is calculated.
+\item Scaling has a big effect on the apperance of the heat map. Scaling make things on different scale comparable and thus easier to see the difference.
+\end{enumerate}
+}
+
+\part{b}
+<<2b, fig=T>>=
+heatmap(t(countsTableSubset), scale = 'col', distfun = function(x) as.dist((1 - cor(t(x)))))
+@
+{\color{red}
+\begin{enumerate}
+\item Similarity: In both cases, cluster assignment of T8, T33, T51, N8, N33 are similar.
+\item Difference: By using Corrleation distance, we find that cluster assignment of N51 changed. Corrleation tend to do a better job, since it assigned N51 to the right cluster.
+\item Because Corrleation distance pay more attention to the pattern of the feature vectors , and pay less attention to magnitude of feature vectors. But Eucledian distance do in the opposite way.
+\end{enumerate}
+}
+
+\part{c}
+{\color{red}
+Summary:
+\begin{enumerate}
+\item We find obvious difference between scaling and not scaling.
+\item We have different result using Eucledian distance and Corrleation distance. The latter is better.
+\end{enumerate}
+Suggestions:
+\begin{enumerate}
+\item Scale before plot headmap.
+\item First, Try different distance to see different result. And then select the best distance. For this specific case, use Corrleation distance.
+\end{enumerate}
+}
+
+\newpage
+\question{3}{Kmeans}
+\part{a}
+<<3a>>=
+km.out = kmeans(t(countsTableFull), 2, nstart = 50)
+km.out$cluster
+@
+
+\part{b}
+<<3b>>=
+km.out = kmeans(t(countsTableSubset), 2, nstart = 50)
+km.out$cluster
+@
+
+{\color{red}
+In both cases, N51 is assigned to one cluster, and all others are assigned to one cluster. The result is very poor.
+}
+
+\part{c}
+{\color{red}
+Suggestions:
+\begin{enumerate}
+\item For future analysis of such data, it's better to use hierarchical clustering.
+\end{enumerate}
+}
+
+\end{document}
