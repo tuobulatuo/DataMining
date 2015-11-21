@@ -1,0 +1,255 @@
+\documentclass[a4paper]{article}
+
+\usepackage{Sweave} %--------------------------------!
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{verbatim}
+
+\oddsidemargin 0cm
+\topmargin -2.4cm     %I recommend adding these three lines to increase the
+\textwidth 16.5cm   %amount of usable space on the page (and save trees)
+\textheight 27.5cm
+
+\newcommand{\question}[2] {\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\bf #1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+\newcommand{\myname}{Xuan Han}
+\newcommand{\myhusky}{han.xua@husky.neu}
+\newcommand{\myhwnum}{8}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{\textbf{HW\myhwnum}}}      % Note the different brackets!
+\rhead{\fancyplain{}{\myname\\ \myhusky}}
+\chead{\fancyplain{}{1 2 3 4}}
+
+
+\begin{document}
+\SweaveOpts{concordance=True}
+
+\title{Data Mining Assignment \myhwnum}
+\author{\myname \\
+        \myhusky}
+\date{\today}
+\maketitle
+
+\thispagestyle{plain}
+
+<<prepare>>=
+load('realEstate.RData')
+binQua = ifelse(realEstate$Quality == 1, 1, 0)
+binQua = as.factor(binQua)
+all.data = data.frame(realEstate, binQua)
+
+totalInstance = dim(realEstate)[1]
+trainSize = 350
+testSize = totalInstance - trainSize
+
+set.seed(1)
+trainIndex = sample(1:522, 350)
+trainSet = all.data[trainIndex, c(-1, -10)]
+validateSet = all.data[-trainIndex, c(-1, -10)]
+@
+
+\question{1}{Tree}
+\part{b}
+<<1b>>=
+library(tree)
+tree.realEstate = tree(binQua~., trainSet)
+summary(tree.realEstate)
+@
+{\color{red}
+\begin{enumerate}
+\item Training error rate is 0.02286.
+\item There are 10 terminal nodes.
+\item Training error changes everytime with different samples.
+\end{enumerate}
+}
+
+
+\part{c}
+<<1c>>=
+tree.realEstate
+@
+{\color{red}
+\begin{enumerate}
+\item Let's look at node 2:
+\item The split criterion is Sales < 322500
+\item There are 271 data points in this node.
+\item This terminal node label is 0.
+\item Deviance is 23.62.
+\item 0.99262 percent of the data points are labeled 0, and 0.00738 of the data points are labeled 1.
+\end{enumerate}
+}
+
+
+\part{d}
+<<1d, fig=T>>=
+plot(tree.realEstate)
+text(tree.realEstate, pretty = 0)
+@
+{\color{red}
+\begin{enumerate}
+\item This tree has depth 4.
+\item The most important predictor is Sales. The first split differentiated most of the data points. And it appeared 5 times.
+\end{enumerate}
+}
+
+\part{e}
+<<1e>>=
+tree.pred = predict(tree.realEstate, validateSet, type = 'class')
+table(tree.pred, validateSet$binQua)
+(6 + 4) / 172
+@
+{\color{red}
+\begin{enumerate}
+\item Test error rate is 0.05813953.
+\end{enumerate}
+}
+
+
+\part{f}
+<<1f>>=
+cv.realEstate = cv.tree(tree.realEstate, FUN = prune.misclass)
+@
+
+
+\part{g}
+<<1g, fig=T>>=
+plot(cv.realEstate$size, cv.realEstate$dev, type = 'b', col = 'red')
+@
+{\color{red}
+\begin{enumerate}
+\item As show in the plot, tree size 4 and 6 corresponding to the lowest cross-validated error rate.
+\end{enumerate}
+}
+
+
+\part{h}
+<<1h, fig=T>>=
+prune.realEstate = prune.misclass(tree.realEstate, best = 6)
+plot(prune.realEstate)
+text(prune.realEstate, pretty = 0)
+@
+
+\part{j}
+<<1j>>=
+prune.pred.train = predict(prune.realEstate, trainSet, type = 'class')
+table(prune.pred.train, trainSet$binQua)
+(6 + 3) / 350
+@
+{\color{red}
+\begin{enumerate}
+\item Train error rate after prune if 0.0257, which is higher than unpruned tree.
+\end{enumerate}
+}
+
+\part{k}
+<<1k>>=
+prune.pred.validate = predict(prune.realEstate, validateSet, type = 'class')
+table(prune.pred.validate, validateSet$binQua)
+(8 + 5) / 172
+@
+{\color{red}
+\begin{enumerate}
+\item Test error rate after prune if 0.0755814, which is higher than unpruned tree.
+\end{enumerate}
+}
+
+
+
+\newpage
+\question{2}{Bagging}
+<<2,fig = T>>=
+library(randomForest)
+set.seed(1)
+bag.realEstate = randomForest(binQua ~ ., data = trainSet, mtry = 11, importance = T, ntree = 100)
+bag.realEstate
+varImpPlot(bag.realEstate, col = 'blue')
+
+
+yhat.bag = predict(bag.realEstate, newdata = validateSet)
+table(yhat.bag, validateSet$binQua)
+(6 + 4) / 172
+@
+
+{\color{red}
+\begin{enumerate}
+\item We can see that Sales is the most important predictor.
+\item Train error rate is 0.0629, higher than the best single-tree classification.
+\item Test error rate is 0.05813953, equal with the best single-tree classification.
+\end{enumerate}
+}
+
+
+
+\newpage
+\question{3}{RandomForest}
+
+<<3, fig=T>>=
+set.seed(1)
+forest.realEstate = randomForest(binQua ~ ., data = trainSet, mtry = 1, importance = T, ntree = 100)
+forest.realEstate
+varImpPlot(forest.realEstate, col = 'blue')
+
+yhat.forest = predict(forest.realEstate, newdata = validateSet)
+table(yhat.forest, validateSet$binQua)
+(4 + 3) / 172
+@
+{\color{red}
+\begin{enumerate}
+\item Train is 0.629, higher than best single tree.
+\item Test error is 0.04069767, lower than best single tree.
+\item Importance map changed a litter bit. Other variables have more infulence now, which is as expected.
+\item Note that I set mtry = 1, which gives the best test error.
+\end{enumerate}
+}
+
+
+
+\newpage
+\question{4}{Boosting}
+<<4, fig=T>>=
+require(gbm)
+set.seed(1)
+shirinkages = seq(from = 0, to = 0.4, by = 0.01)
+trainAccu = rep(NA, length(shirinkages))
+testAccu = rep(NA, length(shirinkages))
+counter = 1
+for (s in shirinkages) {
+    boost.realEstate = gbm(binQua ~ ., data = trainSet, distribution = "multinomial", n.trees = 1000, shrinkage = s)
+    yhat.boost.array = predict(boost.realEstate, newdata = validateSet, n.trees = 1000, type = 'response')
+    yhat.boost = ifelse(yhat.boost.array[,1,1] > yhat.boost.array[,2,1], 0, 1)
+    train.correct.rate = sum(yhat.boost == trainSet$binQua) / length(trainSet$binQua)
+    test.correct.rate = sum(yhat.boost == validateSet$binQua) / length(validateSet$binQua)
+
+    trainAccu[counter] = train.correct.rate
+    testAccu[counter] = test.correct.rate
+    counter = counter + 1
+}
+par(mfrow = c(2, 2))
+plot(shirinkages, trainAccu, type = 'l')
+plot(shirinkages, testAccu, type = 'l')
+
+best = which.max(testAccu)
+1 - testAccu[best]
+1 - trainAccu[best]
+summary(boost.realEstate)
+@
+
+{\color{red}
+\begin{enumerate}
+\item Train error rate is 0.2342, much higher than best single tree model.
+\item Test error rate is 0.05813953, equal with best single tree.
+\item The most important variable is Sales and SqFeet.
+\end{enumerate}
+}
+
+\end{document}
