@@ -353,23 +353,26 @@ yhat.forest   0   1
 
 \newpage
 \question{4}{Boosting}
+
 \begin{Schunk}
 \begin{Sinput}
 > require(gbm)
 > set.seed(1)
-> shirinkages = seq(from = 0, to = 0.4, by = 0.01)
+> shirinkages = seq(from = 0, to = 0.6, by = 0.02)
 > trainAccu = rep(NA, length(shirinkages))
 > testAccu = rep(NA, length(shirinkages))
 > counter = 1
+> trainSet$binQua = as.numeric(trainSet$binQua) - 1
+> validateSet$binQua = as.numeric(validateSet$binQua) - 1
 > for (s in shirinkages) {
-+     boost.realEstate = gbm(binQua ~ ., data = trainSet, distribution = "multinomial", n.trees = 1000, shrinkage = s)
-+     yhat.boost.array = predict(boost.realEstate, newdata = validateSet, n.trees = 1000, type = 'response')
-+     yhat.boost = ifelse(yhat.boost.array[,1,1] > yhat.boost.array[,2,1], 0, 1)
-+     train.correct.rate = sum(yhat.boost == trainSet$binQua) / length(trainSet$binQua)
-+     test.correct.rate = sum(yhat.boost == validateSet$binQua) / length(validateSet$binQua)
++     boost.realEstate = gbm(binQua ~ ., data = trainSet, distribution = "bernoulli", n.trees = 1000, shrinkage = s)
++     yhat.boost.vali.probs = predict(boost.realEstate, newdata = validateSet, n.trees = 1000, type = 'response')
++     yhat.boost.vali.preds = ifelse(yhat.boost.vali.probs > 0.5, 1, 0)
++     yhat.boost.train.probs = predict(boost.realEstate, newdata = trainSet, n.trees = 1000, type = 'response')
++     yhat.boost.train.preds = ifelse(yhat.boost.train.probs > 0.5, 1, 0)
 + 
-+     trainAccu[counter] = train.correct.rate
-+     testAccu[counter] = test.correct.rate
++     trainAccu[counter] = sum(yhat.boost.train.preds == trainSet$binQua) / 350
++     testAccu[counter] = sum(yhat.boost.vali.preds == validateSet$binQua) / 172
 +     counter = counter + 1
 + }
 > par(mfrow = c(2, 2))
@@ -379,29 +382,29 @@ yhat.forest   0   1
 > 1 - testAccu[best]
 \end{Sinput}
 \begin{Soutput}
-[1] 0.05813953
+[1] 0.05232558
 \end{Soutput}
 \begin{Sinput}
 > 1 - trainAccu[best]
 \end{Sinput}
 \begin{Soutput}
-[1] 0.2342857
+[1] 0
 \end{Soutput}
 \begin{Sinput}
 > summary(boost.realEstate)
 \end{Sinput}
 \begin{Soutput}
             var      rel.inf
-Sales     Sales 6.702787e+01
-SqFeet   SqFeet 1.789904e+01
-Year       Year 9.516756e+00
-Bath       Bath 2.668982e+00
-Garage   Garage 1.751340e+00
-LotSize LotSize 7.986863e-01
-Bed         Bed 3.334082e-01
-Style     Style 3.877868e-03
-Pool       Pool 3.577933e-05
+Sales     Sales 9.715107e+01
+Year       Year 2.728681e+00
+SqFeet   SqFeet 1.142591e-01
+Bed         Bed 3.947412e-03
+Garage   Garage 1.459663e-03
+Style     Style 5.799144e-04
+Bath       Bath 0.000000e+00
 HVAC       HVAC 0.000000e+00
+Pool       Pool 0.000000e+00
+LotSize LotSize 0.000000e+00
 Highway Highway 0.000000e+00
 \end{Soutput}
 \end{Schunk}
@@ -409,9 +412,9 @@ Highway Highway 0.000000e+00
 
 {\color{red}
 \begin{enumerate}
-\item Train error rate is 0.2342, much higher than best single tree model.
-\item Test error rate is 0.05813953, equal with best single tree.
-\item The most important variable is Sales and SqFeet.
+\item Test error rate is 0.05232558, lower than best single tree model.
+\item Train error rate is 0, lower than best single tree.
+\item The most important variable is Sales and Year
 \end{enumerate}
 }
 

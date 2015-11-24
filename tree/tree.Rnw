@@ -216,24 +216,30 @@ table(yhat.forest, validateSet$binQua)
 
 \newpage
 \question{4}{Boosting}
+
 <<4, fig=T>>=
 require(gbm)
 set.seed(1)
-shirinkages = seq(from = 0, to = 0.4, by = 0.01)
+shirinkages = seq(from = 0, to = 0.6, by = 0.02)
 trainAccu = rep(NA, length(shirinkages))
 testAccu = rep(NA, length(shirinkages))
 counter = 1
-for (s in shirinkages) {
-    boost.realEstate = gbm(binQua ~ ., data = trainSet, distribution = "multinomial", n.trees = 1000, shrinkage = s)
-    yhat.boost.array = predict(boost.realEstate, newdata = validateSet, n.trees = 1000, type = 'response')
-    yhat.boost = ifelse(yhat.boost.array[,1,1] > yhat.boost.array[,2,1], 0, 1)
-    train.correct.rate = sum(yhat.boost == trainSet$binQua) / length(trainSet$binQua)
-    test.correct.rate = sum(yhat.boost == validateSet$binQua) / length(validateSet$binQua)
 
-    trainAccu[counter] = train.correct.rate
-    testAccu[counter] = test.correct.rate
+trainSet$binQua = as.numeric(trainSet$binQua) - 1
+validateSet$binQua = as.numeric(validateSet$binQua) - 1
+
+for (s in shirinkages) {
+    boost.realEstate = gbm(binQua ~ ., data = trainSet, distribution = "bernoulli", n.trees = 1000, shrinkage = s)
+    yhat.boost.vali.probs = predict(boost.realEstate, newdata = validateSet, n.trees = 1000, type = 'response')
+    yhat.boost.vali.preds = ifelse(yhat.boost.vali.probs > 0.5, 1, 0)
+    yhat.boost.train.probs = predict(boost.realEstate, newdata = trainSet, n.trees = 1000, type = 'response')
+    yhat.boost.train.preds = ifelse(yhat.boost.train.probs > 0.5, 1, 0)
+
+    trainAccu[counter] = sum(yhat.boost.train.preds == trainSet$binQua) / 350
+    testAccu[counter] = sum(yhat.boost.vali.preds == validateSet$binQua) / 172
     counter = counter + 1
 }
+
 par(mfrow = c(2, 2))
 plot(shirinkages, trainAccu, type = 'l')
 plot(shirinkages, testAccu, type = 'l')
@@ -246,9 +252,9 @@ summary(boost.realEstate)
 
 {\color{red}
 \begin{enumerate}
-\item Train error rate is 0.2342, much higher than best single tree model.
-\item Test error rate is 0.05813953, equal with best single tree.
-\item The most important variable is Sales and SqFeet.
+\item Test error rate is 0.05232558, lower than best single tree model.
+\item Train error rate is 0, lower than best single tree.
+\item The most important variable is Sales and Year
 \end{enumerate}
 }
 

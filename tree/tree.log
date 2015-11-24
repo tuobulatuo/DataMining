@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  20 NOV 2015 14:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  24 NOV 2015 12:44
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -440,12 +440,12 @@ Package pdftex.def Info: tree-3.pdf used on input line 342.
  [7 <./tree-3.pdf>] [8] <tree-4.pdf, id=67, 433.62pt x 433.62pt>
 File: tree-4.pdf Graphic file (type pdf)
  <use tree-4.pdf>
-Package pdftex.def Info: tree-4.pdf used on input line 408.
+Package pdftex.def Info: tree-4.pdf used on input line 411.
 (pdftex.def)             Requested size: 375.57779pt x 375.59885pt.
  [9] [10 <./tree-4.pdf>] (./tree.aux) ) 
 Here is how much of TeX's memory you used:
  4116 strings out of 493089
- 57157 string characters out of 6134842
+ 57169 string characters out of 6134842
  113498 words of memory out of 5000000
  7481 multiletter control sequences out of 15000+600000
  21137 words of font info for 57 fonts, out of 8000000 for 9000
@@ -461,7 +461,7 @@ e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
 ublic/amsfonts/cm/cmsltt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/p
 ublic/cm-super/sfst1000.pfb>
-Output written on tree.pdf (10 pages, 141336 bytes).
+Output written on tree.pdf (10 pages, 141488 bytes).
 PDF statistics:
  107 PDF objects out of 1000 (max. 8388607)
  73 compressed objects within 1 object stream
