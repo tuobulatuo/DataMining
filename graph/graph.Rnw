@@ -1,0 +1,170 @@
+\documentclass[a4paper]{article}
+
+\usepackage{Sweave} %--------------------------------!
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{verbatim}
+
+\oddsidemargin 0cm
+\topmargin -2.4cm     %I recommend adding these three lines to increase the
+\textwidth 16.5cm   %amount of usable space on the page (and save trees)
+\textheight 27.5cm
+
+\newcommand{\question}[2] {\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\bf #1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+\newcommand{\myname}{Xuan Han}
+\newcommand{\myhusky}{han.xua@husky.neu}
+\newcommand{\myhwnum}{9}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{\textbf{HW\myhwnum}}}      % Note the different brackets!
+\rhead{\fancyplain{}{\myname\\ \myhusky}}
+\chead{\fancyplain{}{1 2}}
+
+
+\begin{document}
+\SweaveOpts{concordance=True}
+
+\title{Data Mining Assignment \myhwnum}
+\author{\myname \\
+        \myhusky}
+\date{\today}
+\maketitle
+
+\thispagestyle{plain}
+
+<<<1prepare>>=
+library(igraph)
+edge.table <- read.table("yeast_broad.tsv", header = FALSE, stringsAsFactors = F)
+load("yeast_names.Rdata")
+G <- graph.data.frame(edge.table, vertices = vertex.table, directed = TRUE)
+@
+
+
+\question{1}{Yeast}
+\part{a}{Degree BC PR}
+<<1a, fig=TRUE>>=
+G.degree = degree(G)
+G.bc = betweenness(G)
+G.pr = page.rank(G)$vector
+par(mfrow = c(2,2))
+hist(log(G.degree))
+hist(log(G.bc))
+hist(log(G.pr))
+@
+
+\newpage
+\part{b}{HITS}
+<<1b, fig = T>>=
+m = as.matrix(get.adjacency(G))
+
+hits = function(A, round){
+    hub = rep(1, dim(A)[1])
+    auth = rep(1, dim(A)[1])
+
+    while(round > 0) {
+        auth = t(A) %*% hub
+        auth = auth / sqrt(sum(auth ^ 2))
+        hub = A %*% auth
+        hub = hub / sqrt(sum(hub ^ 2))
+        round = round - 1
+    }
+    result <- list(hub=hub,auth=auth)
+    return(result)
+}
+
+G.hub = hits(m, 20)$hub
+G.auth = hits(m, 20)$auth
+
+par(mfrow = c(2, 1))
+
+hist(log(G.hub))
+hist(log(G.auth))
+@
+
+\newpage
+\part{c}{Compare}
+<<1c, fig = T>>=
+feature = data.frame(degree = G.degree, bc = G.bc, pr = G.pr, hub = G.hub, auth = G.auth)
+pairs(feature)
+@
+
+% YOL067C
+
+<<11c, fig = T>>=
+gap = abs(rank(G.auth) - rank(G.degree))
+rank(gap)
+
+nei.nodes.names = V(G)[nei('YOL067C')]$name
+sub.nodes.names = c(nei.nodes.names, 'YOL067C')
+sub.nodes = V(G)[sub.nodes.names]
+G.sub = induced.subgraph(G, sub.nodes)
+lay.out <- layout.auto(G.sub)
+plot.igraph(G.sub,
+            layout = lay.out,
+            vertex.label.dist = -.5,
+            edge.arrow.size = .3,
+            main = "Subgraph")
+@
+
+\begin{enumerate}
+\item Let's use degree and authrity score as the two metrics. We find that node 'YOL067C' has biggest gap of the two metrics.
+\item After plotting the subgraph, It's clear why this happen: this node has 20 out degrees and 0 in degree. So although it has big degree, it has low authority score, which is 0.
+\end{enumerate}
+
+\newpage
+\question{2}{Running time}
+\part{a}
+<<2a, fig=T>>=
+node.count = seq(from = 2000, to = 3000, by = 100)
+time.pr = rep(0, length(node.count))
+time.hits = rep(0, length(node.count))
+for (i in 1:length(node.count)){
+    n = node.count[i]
+    g <- sample_gnp(n, 1 / 20, directed = TRUE)
+    time.pr[i] = system.time(page.rank(g))
+    m = as.matrix(get.adjacency(g))
+    time.hits[i] = system.time(hits(m, 2))
+}
+time.pr
+time.hits
+time.pr = time.pr / sum(time.pr)
+time.hits = time.hits / sum(time.hits)
+plot(node.count, time.pr, col = 'red', type = 'l')
+lines(node.count, time.hits, col = 'green', type = 'l')
+@
+
+\part{b}
+<<2b, fig = T>>=
+for (i in 1:length(node.count)){
+    n = node.count[i]
+    g <- sample_gnp(n, 1 / 3, directed = TRUE)
+    time.pr[i] = system.time(page.rank(g))
+    m = as.matrix(get.adjacency(g))
+    time.hits[i] = system.time(hits(m, 3))
+}
+time.pr
+time.hits
+time.pr = time.pr / sum(time.pr)
+time.hits = time.hits / sum(time.hits)
+plot(node.count, time.pr, col = 'red', type = 'l')
+lines(node.count, time.hits, col = 'green', type = 'l')
+@
+
+\begin{enumerate}
+\item More nodes results in a increase in time to compute both PageRank and HITS.
+\item Higher density result in a increase in time to compute both PageRank and HITS.
+\item HITS needs more time than PageRank, which is 10 times, since it needs operation on matrix.
+\item I have to scale them inorder to present in the same plot.
+\end{enumerate}
+
+\end{document}
